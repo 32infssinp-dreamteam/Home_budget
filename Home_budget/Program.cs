@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using Home_budget.Helpers;
+using Repository.Helpers;
+using Repository.Utils;
 
 namespace Home_budget
 {
@@ -11,6 +10,12 @@ namespace Home_budget
         [STAThread]
         static void Main()
         {
+            var databaseFile = ConfigurationHelper.GetConfigurationValue("DatabaseFile");
+
+            SQLiteConnectionStringHelper.Database = databaseFile;
+
+            DatabaseMaker.CreateDatabase(databaseFile);
+
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());
