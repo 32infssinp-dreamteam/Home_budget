@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\SQLiteConnectionStringHelper.cs" />
+    <Compile Include="Helpers\SqlQuerries.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\DatabaseTest.cs" />
     <Compile Include="Utils\DatabaseMaker.cs" />

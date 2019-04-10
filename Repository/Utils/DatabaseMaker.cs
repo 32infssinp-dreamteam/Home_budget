@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using Repository.Helpers;
@@ -10,12 +9,12 @@ namespace Repository.Utils
     {
         public static void CreateDatabase(string filename)
         {
-            //if (File.Exists(filename))
-            //{
-            //    return;
-            //}
+            if (File.Exists(filename))
+            {
+                return;
+            }
 
-            //SQLiteConnection.CreateFile(filename);
+            SQLiteConnection.CreateFile(filename);
 
             var connectionString = SQLiteConnectionStringHelper.GetConnectionString();
             
@@ -27,20 +26,14 @@ namespace Repository.Utils
                 {
                     using (var command = connection.CreateCommand())
                     {
-                        //command.CommandText = "CREATE TABLE Test (Id INT)";
-                        //command.ExecuteNonQuery();
+                        command.CommandText = SqlQuerries.CreateTableCategories;
+                        command.ExecuteNonQuery();
 
-                        //command.CommandText = "INSERT INTO Test (Id) VALUES (55)";
-                        //command.ExecuteNonQuery();
-                        command.CommandText = "SELECT * FROM Test";
+                        command.CommandText = SqlQuerries.CreateTableExpenses;
+                        command.ExecuteNonQuery();
 
-                        using (var dr = command.ExecuteReader())
-                        {
-                            while (dr.Read())
-                            {
-                                Console.WriteLine($"_test_ {dr[0].ToString()}");
-                            }
-                        }
+                        command.CommandText = SqlQuerries.CreateTableMonthlyBudgets;
+                        command.ExecuteNonQuery();
                     }
 
                     transaction.Commit();
