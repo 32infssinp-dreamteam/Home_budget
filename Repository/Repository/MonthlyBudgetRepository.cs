@@ -6,9 +6,9 @@ using Repository.Helpers;
 
 namespace Repository.Repository
 {
-    public class MonthlyBudgetRepository
+    internal class MonthlyBudgetRepository
     {
-        public MonthlyBudget Get(int year, int month)
+        internal MonthlyBudget Get(int year, int month)
         {
             MonthlyBudget monthlyBudget = null;
 
@@ -51,7 +51,7 @@ namespace Repository.Repository
             return monthlyBudget;
         }
 
-        public void Add(int year, int month, decimal budgetValue)
+        internal void Add(int year, int month, decimal budgetValue)
         {
             using (var connection = new SQLiteConnection(SQLiteConnectionStringHelper.GetConnectionString()))
             {
@@ -79,7 +79,7 @@ namespace Repository.Repository
             }
         }
 
-        public void Edit(MonthlyBudget monthlyBudget)
+        internal void Edit(MonthlyBudget monthlyBudget)
         {
             using (var connection = new SQLiteConnection(SQLiteConnectionStringHelper.GetConnectionString()))
             {
@@ -107,7 +107,7 @@ namespace Repository.Repository
             }
         }
 
-        public void Delete(MonthlyBudget monthlyBudget)
+        internal void Delete(MonthlyBudget monthlyBudget)
         {
             using (var connection = new SQLiteConnection(SQLiteConnectionStringHelper.GetConnectionString()))
             {

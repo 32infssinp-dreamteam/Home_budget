@@ -66,6 +66,9 @@
     <Compile Include="Repository\DatabaseTest.cs" />
     <Compile Include="Repository\ExpenseRepository.cs" />
     <Compile Include="Repository\MonthlyBudgetRepository.cs" />
+    <Compile Include="Services\CategoryService.cs" />
+    <Compile Include="Services\ExpenseService.cs" />
+    <Compile Include="Services\MonthlyBudgetService.cs" />
     <Compile Include="Utils\DatabaseMaker.cs" />
   </ItemGroup>
   <ItemGroup>

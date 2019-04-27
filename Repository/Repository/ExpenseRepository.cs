@@ -7,9 +7,9 @@ using Repository.Helpers;
 
 namespace Repository.Repository
 {
-    public class ExpenseRepository
+    internal class ExpenseRepository
     {
-        public Expense GetById(int id)
+        internal Expense GetById(int id)
         {
             Expense expense = null;
 
@@ -56,7 +56,7 @@ namespace Repository.Repository
             return expense;
         }
 
-        public List<Expense> GetByDate(DateTime date)
+        internal List<Expense> GetByDate(DateTime date)
         {
             List<Expense> expenses = new List<Expense>();
 
@@ -107,7 +107,7 @@ namespace Repository.Repository
             return expenses;
         }
 
-        public List<Expense> GetByMonth(int year, int month)
+        internal List<Expense> GetByMonth(int year, int month)
         {
             List<Expense> expenses = new List<Expense>();
 
@@ -156,8 +156,8 @@ namespace Repository.Repository
 
             return expenses;
         }
-        //todo
-        public void Add(int year, int month, decimal budgetValue)
+
+        internal void Add(Expense expense)
         {
             using (var connection = new SQLiteConnection(SQLiteConnectionStringHelper.GetConnectionString()))
             {
@@ -167,10 +167,15 @@ namespace Repository.Repository
                 {
                     using (var command = connection.CreateCommand())
                     {
-                        command.CommandText = SqlQuerries.AddCategory;
-                        command.Parameters.AddWithValue("@Year", year);
-                        command.Parameters.AddWithValue("@Month", month);
-                        command.Parameters.AddWithValue("@BudgetValue", budgetValue);
+                        command.CommandText = SqlQuerries.AddExpense;
+                        command.Parameters.AddWithValue("@CategoryId", expense.CategoryId);
+                        command.Parameters.AddWithValue("@Value", expense.Value);
+                        command.Parameters.AddWithValue("@Year", expense.Year);
+                        command.Parameters.AddWithValue("@Month", expense.Month);
+                        command.Parameters.AddWithValue("@Day", expense.Day);
+                        command.Parameters.AddWithValue("@Date", expense.Date);
+                        command.Parameters.AddWithValue("@Description", expense.Description);
+                        command.Parameters.AddWithValue("@ModificationTime", expense.ModificationTime);
 
                         command.ExecuteNonQuery();
                     }
@@ -185,7 +190,7 @@ namespace Repository.Repository
             }
         }
 
-        public void Edit(MonthlyBudget monthlyBudget)
+        internal void Edit(Expense expense)
         {
             using (var connection = new SQLiteConnection(SQLiteConnectionStringHelper.GetConnectionString()))
             {
@@ -195,10 +200,16 @@ namespace Repository.Repository
                 {
                     using (var command = connection.CreateCommand())
                     {
-                        command.CommandText = SqlQuerries.EditMonthlyBudget;
-                        command.Parameters.AddWithValue("@BudgetValue", monthlyBudget.BudgetValue);
-                        command.Parameters.AddWithValue("@Year", monthlyBudget.Year);
-                        command.Parameters.AddWithValue("@Month", monthlyBudget.Month);
+                        command.CommandText = SqlQuerries.EditExpense;
+                        command.Parameters.AddWithValue("@CategoryId", expense.CategoryId);
+                        command.Parameters.AddWithValue("@Value", expense.Value);
+                        command.Parameters.AddWithValue("@Year", expense.Year);
+                        command.Parameters.AddWithValue("@Month", expense.Month);
+                        command.Parameters.AddWithValue("@Day", expense.Day);
+                        command.Parameters.AddWithValue("@Date", expense.Date);
+                        command.Parameters.AddWithValue("@Description", expense.Description);
+                        command.Parameters.AddWithValue("@ModificationTime", expense.ModificationTime);
+                        command.Parameters.AddWithValue("@Id", expense.Id);
 
                         command.ExecuteNonQuery();
                     }
@@ -213,7 +224,7 @@ namespace Repository.Repository
             }
         }
 
-        public void Delete(MonthlyBudget monthlyBudget)
+        internal void Delete(Expense expense)
         {
             using (var connection = new SQLiteConnection(SQLiteConnectionStringHelper.GetConnectionString()))
             {
@@ -223,9 +234,8 @@ namespace Repository.Repository
                 {
                     using (var command = connection.CreateCommand())
                     {
-                        command.CommandText = SqlQuerries.DeleteMonthlyBudget;
-                        command.Parameters.AddWithValue("@Year", monthlyBudget.Year);
-                        command.Parameters.AddWithValue("@Month", monthlyBudget.Month);
+                        command.CommandText = SqlQuerries.DeleteExpense;
+                        command.Parameters.AddWithValue("@Id", expense.Id);
 
                         command.ExecuteNonQuery();
                     }

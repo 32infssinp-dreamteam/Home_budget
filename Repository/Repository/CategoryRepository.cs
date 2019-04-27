@@ -7,9 +7,9 @@ using Repository.Helpers;
 
 namespace Repository.Repository
 {
-    public class CategoryRepository
+    internal class CategoryRepository
     {
-        public List<Category> GetAll()
+        internal List<Category> GetAll()
         {
             var categories = new List<Category>();
 
@@ -51,7 +51,7 @@ namespace Repository.Repository
             return categories;
         }
 
-        public void Add(string name, string color)
+        internal void Add(string name, string color)
         {
             using (var connection = new SQLiteConnection(SQLiteConnectionStringHelper.GetConnectionString()))
             {
@@ -78,7 +78,7 @@ namespace Repository.Repository
             }
         }
 
-        public void Edit(Category category)
+        internal void Edit(Category category)
         {
             using (var connection = new SQLiteConnection(SQLiteConnectionStringHelper.GetConnectionString()))
             {
