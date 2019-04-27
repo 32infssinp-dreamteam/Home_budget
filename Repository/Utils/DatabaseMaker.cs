@@ -7,8 +7,10 @@ namespace Repository.Utils
 {
     public static class DatabaseMaker
     {
-        public static void CreateDatabase(string filename)
+        public static void CreateDatabaseIfNotExists()
         {
+            var filename = SQLiteConnectionStringHelper.Database;
+
             if (File.Exists(filename))
             {
                 return;

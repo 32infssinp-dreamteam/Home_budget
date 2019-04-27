@@ -93,5 +93,10 @@ WHERE Year = @Year AND Month = @Month;";
         public const string DeleteMonthlyBudget = @"
 DELETE FROM MonthlyBudgets
 WHERE Year = @Year AND Month = @Month;";
+
+        public const string GetMonthlyBudget = @"
+SELECT Id, BudgetValue
+FROM MonthlyBudgets
+WHERE Year = @Year AND Month = @Month;";
     }
 }

@@ -14,8 +14,8 @@ namespace Home_budget
 
             SQLiteConnectionStringHelper.Database = databaseFile;
 
-            DatabaseMaker.CreateDatabase(databaseFile);
-
+            DatabaseMaker.CreateDatabaseIfNotExists();
+            
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());
