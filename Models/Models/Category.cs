@@ -1,11 +1,51 @@
-﻿namespace Models.Models
+﻿using System.Drawing;
+
+namespace Models.Models
 {
-    public class Category
+    public class Category : BusinessEntity
     {
-        public int Id { get; set; }
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
-        public string Name { get; set; }
+        private string _colorText;
+        public string ColorText
+        {
+            get => _colorText;
+            set
+            {
+                if (_colorText != value)
+                {
+                    _colorText = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
-        public string Color { get; set; }
+        private Color _color;
+
+        public Color Color
+        {
+            get => _color;
+            set
+            {
+                if (_color != value)
+                {
+                    _color = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
     }
 }

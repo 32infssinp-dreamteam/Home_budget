@@ -51,7 +51,7 @@ namespace Repository.Repository
             return monthlyBudget;
         }
 
-        internal void Add(int year, int month, decimal budgetValue)
+        internal void Add(MonthlyBudget monthlyBudget)
         {
             using (var connection = new SQLiteConnection(SQLiteConnectionStringHelper.GetConnectionString()))
             {
@@ -62,14 +62,16 @@ namespace Repository.Repository
                     using (var command = connection.CreateCommand())
                     {
                         command.CommandText = SqlQuerries.AddMonthlyBudget;
-                        command.Parameters.AddWithValue("@Year", year);
-                        command.Parameters.AddWithValue("@Month", month);
-                        command.Parameters.AddWithValue("@BudgetValue", budgetValue);
+                        command.Parameters.AddWithValue("@Year", monthlyBudget.Year);
+                        command.Parameters.AddWithValue("@Month", monthlyBudget.Month);
+                        command.Parameters.AddWithValue("@BudgetValue", monthlyBudget.BudgetValue);
 
                         command.ExecuteNonQuery();
                     }
 
                     transaction.Commit();
+
+                    monthlyBudget.Id = connection.LastInsertRowId;
                 }
 
                 if (connection.State == ConnectionState.Open)

@@ -11,22 +11,39 @@ namespace Repository.Services
 
         public Expense GetById(int id)
         {
-            return _expenseRepository.GetById(id);
+            var expense = _expenseRepository.GetById(id);
+            expense.MarkOld();
+
+            return expense;
         }
 
         public List<Expense> GetByDate(DateTime date)
         {
-            return _expenseRepository.GetByDate(date);
+            var expenses = _expenseRepository.GetByDate(date);
+            expenses.ForEach(expense =>
+            {
+                expense.MarkOld();
+            });
+
+            return expenses;
         }
 
         public List<Expense> GetByMonth(int year, int month)
         {
-            return _expenseRepository.GetByMonth(year, month);
+            var expenses = _expenseRepository.GetByMonth(year, month);
+            expenses.ForEach(expense =>
+            {
+                expense.MarkOld();
+            });
+
+            return expenses;
         }
 
         public void Add(Expense expense)
         {
             _expenseRepository.Add(expense);
+
+            expense.MarkOld();
         }
 
         public void Edit(Expense expense)

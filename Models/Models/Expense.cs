@@ -2,13 +2,23 @@
 
 namespace Models.Models
 {
-    public class Expense
+    public class Expense : BusinessEntity
     {
-        public int Id { get; set; }
-
         public int CategoryId { get; set; }
 
-        public decimal Value { get; set; }
+        private decimal _value;
+        public decimal Value
+        {
+            get => _value;
+            set
+            {
+                if (_value != value)
+                {
+                    _value = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public int Year { get; set; }
 
@@ -16,10 +26,46 @@ namespace Models.Models
 
         public int Day { get; set; }
 
-        public DateTime Date { get; set; }
+        private DateTime _date;
+        public DateTime Date
+        {
+            get => _date;
+            set
+            {
+                if (_date != value)
+                {
+                    _date = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
-        public string Description { get; set; }
+        private string _description;
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                if (_description != value)
+                {
+                    _description = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
-        public DateTime ModificationTime { get; set; }
+        private DateTime _modificationTime;
+        public DateTime ModificationTime
+        {
+            get => _modificationTime;
+            set
+            {
+                if (_modificationTime != value)
+                {
+                    _modificationTime = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
     }
 }

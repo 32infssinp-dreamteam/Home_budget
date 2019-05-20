@@ -31,7 +31,7 @@ namespace Repository.Repository
                                 {
                                     Id = Convert.ToInt32(dr["Id"]),
                                     Name = dr["Name"].ToString(),
-                                    Color = dr["Color"].ToString()
+                                    ColorText = dr["Color"].ToString()
                                 };
 
                                 categories.Add(category);
@@ -51,7 +51,7 @@ namespace Repository.Repository
             return categories;
         }
 
-        internal void Add(string name, string color)
+        internal void Add(Category category)
         {
             using (var connection = new SQLiteConnection(SQLiteConnectionStringHelper.GetConnectionString()))
             {
@@ -62,13 +62,15 @@ namespace Repository.Repository
                     using (var command = connection.CreateCommand())
                     {
                         command.CommandText = SqlQuerries.AddCategory;
-                        command.Parameters.AddWithValue("@Name", name);
-                        command.Parameters.AddWithValue("@Color", color);
-
+                        command.Parameters.AddWithValue("@Name", category.Name);
+                        command.Parameters.AddWithValue("@Color", category.ColorText);
+                        
                         command.ExecuteNonQuery();
                     }
 
                     transaction.Commit();
+
+                    category.Id = connection.LastInsertRowId;
                 }
 
                 if (connection.State == ConnectionState.Open)
@@ -90,7 +92,7 @@ namespace Repository.Repository
                     {
                         command.CommandText = SqlQuerries.EditCategory;
                         command.Parameters.AddWithValue("@Name", category.Name);
-                        command.Parameters.AddWithValue("@Color", category.Color);
+                        command.Parameters.AddWithValue("@Color", category.ColorText);
                         command.Parameters.AddWithValue("@Id", category.Id);
 
                         command.ExecuteNonQuery();

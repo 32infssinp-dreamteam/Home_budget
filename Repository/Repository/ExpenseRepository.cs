@@ -181,6 +181,8 @@ namespace Repository.Repository
                     }
 
                     transaction.Commit();
+
+                    expense.Id = connection.LastInsertRowId;
                 }
 
                 if (connection.State == ConnectionState.Open)

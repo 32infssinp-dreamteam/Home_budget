@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using Models.Models;
 using Repository.Repository;
 
@@ -10,17 +11,29 @@ namespace Repository.Services
 
         public List<Category> GetAll()
         {
-            return _categoryRepository.GetAll();
+            var categories = _categoryRepository.GetAll();
+            categories.ForEach(category =>
+            {
+                category.Color = ColorTranslator.FromHtml(category.ColorText);
+
+                category.MarkOld();
+            });
+
+            return categories;
         }
 
-        public void Add(string name, string color)
+        public void Add(Category category)
         {
-            _categoryRepository.Add(name, color);
+            _categoryRepository.Add(category);
+
+            category.MarkOld();
         }
 
         public void Edit(Category category)
         {
             _categoryRepository.Edit(category);
+
+            category.MarkOld();
         }
     }
 }

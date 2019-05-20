@@ -1,13 +1,47 @@
 ﻿namespace Models.Models
 {
-    public class MonthlyBudget
+    public class MonthlyBudget : BusinessEntity
     {
-        public int Id { get; set; }
+        private int _year;
+        public int Year
+        {
+            get => _year;
+            set
+            {
+                if (_year != value)
+                {
+                    _year = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
-        public int Year { get; set; }
+        private int _month;
+        public int Month
+        {
+            get => _month;
+            set
+            {
+                if (_month != value)
+                {
+                    _month = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
-        public int Month { get; set; }
-
-        public decimal BudgetValue { get; set; }
+        private decimal _budgetValue;
+        public decimal BudgetValue
+        {
+            get => _budgetValue;
+            set
+            {
+                if (_budgetValue != value)
+                {
+                    _budgetValue = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
     }
 }

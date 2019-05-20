@@ -9,12 +9,17 @@ namespace Repository.Services
 
         public MonthlyBudget Get(int year, int month)
         {
-            return _monthlyBudgetRepository.Get(year, month);
+            var monthlyBudget = _monthlyBudgetRepository.Get(year, month);
+            monthlyBudget.MarkOld();
+
+            return monthlyBudget;
         }
 
-        public void Add(int year, int month, decimal budgetValue)
+        public void Add(MonthlyBudget monthlyBudget)
         {
-            _monthlyBudgetRepository.Add(year, month, budgetValue);
+            _monthlyBudgetRepository.Add(monthlyBudget);
+            
+            monthlyBudget.MarkOld();
         }
 
         public void Edit(MonthlyBudget monthlyBudget)
