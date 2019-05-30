@@ -107,5 +107,67 @@ namespace Repository.Repository
                 }
             }
         }
+
+        internal void Delete(Category category)
+        {
+            using (var connection = new SQLiteConnection(SQLiteConnectionStringHelper.GetConnectionString()))
+            {
+                connection.Open();
+
+                using (var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted))
+                {
+                    using (var command = connection.CreateCommand())
+                    {
+                        command.CommandText = SqlQuerries.DeleteCategory;
+                        command.Parameters.AddWithValue("@CategoryId", category.Id);
+
+                        command.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+                }
+
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        internal bool IsCategoryUsed(Category category)
+        {
+            var isCategoryUsed = false;
+
+            using (var connection = new SQLiteConnection(SQLiteConnectionStringHelper.GetConnectionString()))
+            {
+                connection.Open();
+
+                using (var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted))
+                {
+                    using (var command = connection.CreateCommand())
+                    {
+                        command.CommandText = SqlQuerries.IsCategoryUsed;
+                        command.Parameters.AddWithValue("@CategoryId", category.Id);
+
+                        using (var dr = command.ExecuteReader())
+                        {
+                            if (dr.Read())
+                            {
+                                isCategoryUsed = Convert.ToBoolean(dr[0]);
+                            }
+                        }
+                    }
+
+                    transaction.Commit();
+                }
+
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+
+            return isCategoryUsed;
+        }
     }
 }

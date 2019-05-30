@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\BusinessEntity.cs" />
+    <Compile Include="Models\CategoriesViewGuiProperties.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Expense.cs" />
     <Compile Include="Models\MonthlyBudget.cs" />

@@ -46,6 +46,16 @@ WHERE Id = @Id;";
 SELECT Id, Name, Color
 FROM Categories;";
 
+        public const string DeleteCategory = @"
+DELETE FROM Categories
+WHERE Id = @CategoryId;";
+
+        public const string IsCategoryUsed = @"
+SELECT EXISTS (
+    SELECT 1
+    FROM Expenses
+    WHERE CategoryId = @CategoryId);";
+
         public const string AddExpense = @"
 INSERT INTO Expenses (CategoryId, Value, Year, Month, Day, Date, Description, ModificationTime)
 VALUES (@CategoryId, @Value, @Year, @Month, @Day, @Date, @Description, @ModificationTime);";

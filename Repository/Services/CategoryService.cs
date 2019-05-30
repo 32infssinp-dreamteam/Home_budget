@@ -21,7 +21,7 @@ namespace Repository.Services
 
             return categories;
         }
-
+        
         public void Add(Category category)
         {
             _categoryRepository.Add(category);
@@ -34,6 +34,16 @@ namespace Repository.Services
             _categoryRepository.Edit(category);
 
             category.MarkOld();
+        }
+
+        public void Delete(Category category)
+        {
+            _categoryRepository.Delete(category);
+        }
+
+        public bool IsCategoryUsed(Category category)
+        {
+            return _categoryRepository.IsCategoryUsed(category);
         }
     }
 }
