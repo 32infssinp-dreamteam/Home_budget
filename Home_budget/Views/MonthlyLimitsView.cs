@@ -9,7 +9,7 @@ using Services.BusinessServices;
 
 namespace Home_budget.Views
 {
-    public partial class CategoriesView : Form
+    public partial class MonthlyLimitsView : Form
     {
         private readonly CategoryService _categoryService = new CategoryService();
         private readonly CategoryBusinessService _categoryBusinessService = new CategoryBusinessService();
@@ -20,7 +20,7 @@ namespace Home_budget.Views
         private CategoriesViewGuiProperties _guiProperties = new CategoriesViewGuiProperties();
         private bool _isSaved = false;
         
-        public CategoriesView(List<Category> categories)
+        public MonthlyLimitsView(List<Category> categories)
         {
             InitializeComponent();
 

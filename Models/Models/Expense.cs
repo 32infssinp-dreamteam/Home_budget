@@ -1,10 +1,39 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Models.Models
 {
     public class Expense : BusinessEntity
     {
-        public int CategoryId { get; set; }
+        public long CategoryId { get; set; }
+
+        private string _categoryName;
+        public string CategoryName
+        {
+            get => _categoryName;
+            set
+            {
+                if (_categoryName != value)
+                {
+                    _categoryName = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private Color _categoryColor;
+        public Color CategoryColor
+        {
+            get => _categoryColor;
+            set
+            {
+                if (_categoryColor != value)
+                {
+                    _categoryColor = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         private decimal _value;
         public decimal Value

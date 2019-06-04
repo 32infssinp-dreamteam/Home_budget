@@ -26,8 +26,6 @@ namespace Services.BusinessServices
                     _categoryService.Edit(cat);
                 }
             });
-
-            categories = categories.Where(cat => !cat.IsDeleted).ToList();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Home_budget.Views
 {
-    partial class CategoriesView
+    partial class MonthlyLimitsView
     {
         /// <summary>
         /// Required designer variable.

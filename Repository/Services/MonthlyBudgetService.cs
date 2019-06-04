@@ -10,7 +10,6 @@ namespace Repository.Services
         public MonthlyBudget Get(int year, int month)
         {
             var monthlyBudget = _monthlyBudgetRepository.Get(year, month);
-            monthlyBudget.MarkOld();
 
             return monthlyBudget;
         }
@@ -18,8 +17,6 @@ namespace Repository.Services
         public void Add(MonthlyBudget monthlyBudget)
         {
             _monthlyBudgetRepository.Add(monthlyBudget);
-            
-            monthlyBudget.MarkOld();
         }
 
         public void Edit(MonthlyBudget monthlyBudget)
@@ -31,5 +28,7 @@ namespace Repository.Services
         {
             _monthlyBudgetRepository.Delete(monthlyBudget);
         }
+
+
     }
 }

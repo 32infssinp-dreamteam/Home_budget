@@ -89,7 +89,8 @@ WHERE Year = @Year AND Month = @Month AND Day = @Day;";
         public const string GetExpensesByMonth = @"
 SELECT Id, CategoryId, Value, Year, Month, Day, Date, Description, ModificationTime
 FROM Expenses
-WHERE Year = @Year AND Month = @Month;";
+WHERE Year = @Year AND Month = @Month
+ORDER BY Year, Month, Day;";
 
         public const string AddMonthlyBudget = @"
 INSERT INTO MonthlyBudgets (Year, Month, BudgetValue)
