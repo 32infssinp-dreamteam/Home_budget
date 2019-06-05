@@ -11,89 +11,56 @@ namespace Home_budget.Views
 {
     public partial class MonthlyLimitsView : Form
     {
-        private readonly CategoryService _categoryService = new CategoryService();
-        private readonly CategoryBusinessService _categoryBusinessService = new CategoryBusinessService();
+        private readonly MonthlyBudgetService _monthlyBudgetService = new MonthlyBudgetService();
+        private readonly MonthlyBudgetsBusinessService _monthlyBudgetsBusinessService = new MonthlyBudgetsBusinessService();
 
-        private List<Category> _categories;
-        private List<Category> _visibleCategories;
-        private Category _selectedCategory;
-        private CategoriesViewGuiProperties _guiProperties = new CategoriesViewGuiProperties();
+        private List<MonthlyBudget> _monthlyBudgets;
+        private List<MonthlyBudget> _visibleMonthlyBudgets;
+        private MonthlyBudget _selectedMonthlyBudget;
         private bool _isSaved = false;
         
-        public MonthlyLimitsView(List<Category> categories)
+        public MonthlyLimitsView()
         {
             InitializeComponent();
-
-            _categories = categories;
-            
-            _visibleCategories = _categories;
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-            bsCategories.DataSource = _visibleCategories;
-            bsCategories.ResetBindings(false);
-            
-            bsCategoriesViewGuiProperties.DataSource = _guiProperties;
-            bsCategoriesViewGuiProperties.ResetBindings(false);
-            
+            LoadAllMonthlyBudgets();
+
             SelectFirstOnList();
         }
 
-        private void ColorSelectionButton_Click(object sender, EventArgs e)
+        private void LoadAllMonthlyBudgets()
         {
-            using (var dialog = new ColorDialog())
-            {
-                if (dialog.ShowDialog() != DialogResult.OK)
-                {
-                    return;
-                }
+            _monthlyBudgets = _monthlyBudgetService.GetAll();
 
-                var color = dialog.Color;
-                _selectedCategory.Color = color;
-                _selectedCategory.ColorText = ColorTranslator.ToHtml(color);
-                
-                categoriesDataGridView.Refresh();
-            }
+            _visibleMonthlyBudgets = _monthlyBudgets;
+
+            bsMonthlyBudgets.DataSource = _visibleMonthlyBudgets;
+            bsMonthlyBudgets.ResetBindings(false);
         }
 
-        private void CategoriesDataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        private void MonthlyBudgetsDataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            if (e.ColumnIndex != 1)
+            if (monthlyBudgetsDataGridView.SelectedRows.Count <= 0)
             {
                 return;
             }
 
-            if (e.RowIndex < 0 || e.RowIndex >= _visibleCategories.Count)
-            {
-                return;
-            }
-
-            var category = _visibleCategories[e.RowIndex];
-            e.CellStyle.BackColor = category.Color;
-            e.PaintBackground(e.ClipBounds, false);
-        }
-
-        private void CategoriesDataGridView_SelectionChanged(object sender, EventArgs e)
-        {
-            if (categoriesDataGridView.SelectedRows.Count <= 0)
-            {
-                return;
-            }
-
-            var selectedRow = (Category) categoriesDataGridView.SelectedRows[0].DataBoundItem;
+            var selectedRow = (MonthlyBudget) monthlyBudgetsDataGridView.SelectedRows[0].DataBoundItem;
 
             if (selectedRow == null)
             {
                 return;
             }
 
-            _selectedCategory = selectedRow;
+            _selectedMonthlyBudget = selectedRow;
 
-            bsSelectedCategory.DataSource = _selectedCategory;
-            bsSelectedCategory.ResetBindings(false);
+            bsSelectedMonthlyBudget.DataSource = _selectedMonthlyBudget;
+            bsSelectedMonthlyBudget.ResetBindings(false);
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
@@ -101,56 +68,42 @@ namespace Home_budget.Views
             Close();
         }
 
-        private void ResetChanges()
-        {
-            _categories = _categoryService.GetAll();
-            _visibleCategories = _categories;
-        }
-
         private void SaveChanges()
         {
-            _categoryBusinessService.SaveChanges(_categories);
+            _monthlyBudgetsBusinessService.SaveChanges(_monthlyBudgets);
             _isSaved = true;
         }
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            var newCategory = new Category
+            var today = DateTime.Today;
+            var newMonthlyBudget = new MonthlyBudget
             {
-                Color = System.Drawing.Color.White
+                Year = today.Year,
+                Month = today.Month
             };
 
-            newCategory.MarkNew();
+            newMonthlyBudget.MarkNew();
 
-            _categories.Add(newCategory);
+            _monthlyBudgets.Add(newMonthlyBudget);
 
-            _selectedCategory = newCategory;
-            bsSelectedCategory.DataSource = _selectedCategory;
-            bsSelectedCategory.ResetBindings(false);
-
-            _guiProperties.IsCategoryDetailsReadonly = false;
-            bsCategoriesViewGuiProperties.ResetBindings(false);
-
+            _selectedMonthlyBudget = newMonthlyBudget;
+            bsSelectedMonthlyBudget.DataSource = _selectedMonthlyBudget;
+            bsSelectedMonthlyBudget.ResetBindings(false);
+            
             RefreshList();
 
-            var currentItemIndex = _visibleCategories.Count - 1;
+            var currentItemIndex = _visibleMonthlyBudgets.Count - 1;
 
-            categoriesDataGridView.FirstDisplayedScrollingRowIndex = currentItemIndex;
-            categoriesDataGridView.Refresh();
-            categoriesDataGridView.CurrentCell = categoriesDataGridView.Rows[currentItemIndex].Cells[0];
-            categoriesDataGridView.Rows[currentItemIndex].Selected = true;
+            monthlyBudgetsDataGridView.FirstDisplayedScrollingRowIndex = currentItemIndex;
+            monthlyBudgetsDataGridView.Refresh();
+            monthlyBudgetsDataGridView.CurrentCell = monthlyBudgetsDataGridView.Rows[currentItemIndex].Cells[0];
+            monthlyBudgetsDataGridView.Rows[currentItemIndex].Selected = true;
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            if (_categoryService.IsCategoryUsed(_selectedCategory))
-            {
-                MessageBox.Show("Nie można usunąć kategorii, która została przypisana do wydatku", "Błąd", MessageBoxButtons.OK);
-
-                return;
-            }
-
-            _selectedCategory.MarkDeleted();
+            _selectedMonthlyBudget.MarkDeleted();
 
             RefreshList();
             SelectFirstOnList();
@@ -165,39 +118,40 @@ namespace Home_budget.Views
 
         private void SelectFirstOnList()
         {
-            if (_categories.Any(cat => !cat.IsDeleted))
+            if (_monthlyBudgets.Any(budget => !budget.IsDeleted))
             {
-                categoriesDataGridView.FirstDisplayedScrollingRowIndex = 0;
-                categoriesDataGridView.Refresh();
-                categoriesDataGridView.CurrentCell = categoriesDataGridView.Rows[0].Cells[0];
-                categoriesDataGridView.Rows[0].Selected = true;
+                monthlyBudgetsDataGridView.FirstDisplayedScrollingRowIndex = 0;
+                monthlyBudgetsDataGridView.Refresh();
+                monthlyBudgetsDataGridView.CurrentCell = monthlyBudgetsDataGridView.Rows[0].Cells[0];
+                monthlyBudgetsDataGridView.Rows[0].Selected = true;
 
-                _selectedCategory = (Category)categoriesDataGridView.Rows[0].DataBoundItem;
-
-                _guiProperties.IsCategoryDetailsReadonly = false;
+                _selectedMonthlyBudget = (MonthlyBudget)monthlyBudgetsDataGridView.Rows[0].DataBoundItem;
             }
             else
             {
-                _selectedCategory = new Category();
+                var today = DateTime.Today;
 
-                _guiProperties.IsCategoryDetailsReadonly = true;
+                _selectedMonthlyBudget = new MonthlyBudget
+                {
+                    Year = today.Year,
+                    Month = today.Month
+                };
             }
 
-            bsSelectedCategory.DataSource = _selectedCategory;
-            bsSelectedCategory.ResetBindings(false);
-            bsCategoriesViewGuiProperties.ResetBindings(false);
+            bsSelectedMonthlyBudget.DataSource = _selectedMonthlyBudget;
+            bsSelectedMonthlyBudget.ResetBindings(false);
         }
 
         private void RefreshList()
         {
-            _visibleCategories = _categories.Where(cat => !cat.IsDeleted).ToList();
-            bsCategories.DataSource = _visibleCategories;
-            bsCategories.ResetBindings(false);
+            _visibleMonthlyBudgets = _monthlyBudgets.Where(budget => !budget.IsDeleted).ToList();
+            bsMonthlyBudgets.DataSource = _visibleMonthlyBudgets;
+            bsMonthlyBudgets.ResetBindings(false);
         }
 
-        private void CategoriesView_FormClosing(object sender, FormClosingEventArgs e)
+        private void MonthlyBudgetsView_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_isSaved || !_categories.Any(cat => cat.IsDirty))
+            if (_isSaved || !_monthlyBudgets.Any(budget => budget.IsDirty))
             {
                 return;
             }

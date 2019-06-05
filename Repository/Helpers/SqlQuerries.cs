@@ -109,5 +109,10 @@ WHERE Year = @Year AND Month = @Month;";
 SELECT Id, BudgetValue
 FROM MonthlyBudgets
 WHERE Year = @Year AND Month = @Month;";
+
+        public const string GetMonthlyBudgets = @"
+SELECT Id, BudgetValue, Year, Month
+FROM MonthlyBudgets
+ORDER BY Year, Month;";
     }
 }

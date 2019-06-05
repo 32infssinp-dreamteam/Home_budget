@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using Models.Models;
@@ -49,6 +50,49 @@ namespace Repository.Repository
             }
 
             return monthlyBudget;
+        }
+
+        internal List<MonthlyBudget> GetAll()
+        {
+            List<MonthlyBudget> monthlyBudgets = new List<MonthlyBudget>();
+
+            using (var connection = new SQLiteConnection(SQLiteConnectionStringHelper.GetConnectionString()))
+            {
+                connection.Open();
+
+                using (var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted))
+                {
+                    using (var command = connection.CreateCommand())
+                    {
+                        command.CommandText = SqlQuerries.GetMonthlyBudgets;
+
+                        using (var dr = command.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                var monthlyBudget = new MonthlyBudget
+                                {
+                                    Id = Convert.ToInt32(dr["Id"]),
+                                    Year = Convert.ToInt32(dr["Year"]),
+                                    Month = Convert.ToInt32(dr["Month"]),
+                                    BudgetValue = Convert.ToDecimal(dr["BudgetValue"])
+                                };
+
+                                monthlyBudgets.Add(monthlyBudget);
+                            }
+                        }
+                    }
+
+                    transaction.Commit();
+                }
+
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+
+            return monthlyBudgets;
         }
 
         internal void Add(MonthlyBudget monthlyBudget)

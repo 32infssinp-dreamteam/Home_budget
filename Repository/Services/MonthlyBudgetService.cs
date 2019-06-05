@@ -1,4 +1,5 @@
-﻿using Models.Models;
+﻿using System.Collections.Generic;
+using Models.Models;
 using Repository.Repository;
 
 namespace Repository.Services
@@ -10,8 +11,17 @@ namespace Repository.Services
         public MonthlyBudget Get(int year, int month)
         {
             var monthlyBudget = _monthlyBudgetRepository.Get(year, month);
+            monthlyBudget.MarkOld();
 
             return monthlyBudget;
+        }
+
+        public List<MonthlyBudget> GetAll()
+        {
+            var monthlyBudgets = _monthlyBudgetRepository.GetAll();
+            monthlyBudgets.ForEach(mb => mb.MarkOld());
+
+            return monthlyBudgets;
         }
 
         public void Add(MonthlyBudget monthlyBudget)

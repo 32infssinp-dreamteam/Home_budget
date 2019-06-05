@@ -158,5 +158,13 @@ namespace Home_budget.Views
                 Refresh();
             }
         }
+
+        private void EditMonthlyBudgetsButton_Click(object sender, EventArgs e)
+        {
+            using (var monthlyBudgetsEditDialog = new MonthlyLimitsView())
+            {
+                monthlyBudgetsEditDialog.ShowDialog();
+            }
+        }
     }
 }

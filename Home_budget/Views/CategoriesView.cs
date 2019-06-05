@@ -101,12 +101,6 @@ namespace Home_budget.Views
             Close();
         }
 
-        private void ResetChanges()
-        {
-            _categories = _categoryService.GetAll();
-            _visibleCategories = _categories;
-        }
-
         private void SaveChanges()
         {
             _categoryBusinessService.SaveChanges(_categories);
