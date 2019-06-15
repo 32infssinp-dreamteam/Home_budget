@@ -41,6 +41,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,6 +56,12 @@
     <Compile Include="Helpers\ConfigurationHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\AnalysisView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\AnalysisView.Designer.cs">
+      <DependentUpon>AnalysisView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MonthlyLimitsView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,6 +95,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Views\AnalysisView.resx">
+      <DependentUpon>AnalysisView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\MonthlyLimitsView.resx">
       <DependentUpon>MonthlyLimitsView.cs</DependentUpon>
     </EmbeddedResource>
@@ -105,6 +115,7 @@
     <None Include="Properties\DataSources\Models.Models.Category.datasource" />
     <None Include="Properties\DataSources\Models.Models.Expense.datasource" />
     <None Include="Properties\DataSources\Models.Models.MonthlyBudget.datasource" />
+    <None Include="Properties\DataSources\Models.Models.SummaryData.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

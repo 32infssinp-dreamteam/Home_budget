@@ -18,6 +18,7 @@ namespace Home_budget.Views
         private readonly  CategoryService _categoryService = new CategoryService();
         private readonly ExpenseService _expenseService = new ExpenseService();
         private readonly ExpenseBusinessService _expenseBusinessService = new ExpenseBusinessService();
+        private readonly MonthlyBudgetService _monthlyBudgetService = new MonthlyBudgetService();
 
         private List<Category> _categories;
         private List<Expense> _expenses;
@@ -50,6 +51,7 @@ namespace Home_budget.Views
             _expenses = _expenseService.GetByMonth((int)yearNumericUpDown.Value, (int)monthNumericUpDown.Value);
             _expenseBusinessService.FillCategoryInfos(_expenses, _categories);
 
+            RefreshExpenseSum();
             RefreshGrid();
         }
 
@@ -57,6 +59,21 @@ namespace Home_budget.Views
         {
             bsExpense.DataSource = _expenses;
             bsExpense.ResetBindings(false);
+        }
+
+        private void RefreshExpenseSum()
+        {
+            var expenseMonthlySum = _expenses.Sum(exp => exp.Value);
+            var monthlyLimitValue = _monthlyBudgetService.Get((int) yearNumericUpDown.Value, (int) monthNumericUpDown.Value)?.BudgetValue ?? 0m;
+            var usedExpensesLimitText = $"{expenseMonthlySum} zł/{monthlyLimitValue} zł";
+            var textColor = (expenseMonthlySum >= monthlyLimitValue)
+                ? Color.DarkRed
+                : (expenseMonthlySum >= 0.85m * monthlyLimitValue)
+                    ? Color.DarkOrange
+                    : Color.DarkGreen;
+
+            expenseSumLabel.Text = usedExpensesLimitText;
+            expenseSumLabel.ForeColor = textColor;
         }
 
         private void YearNumericUpDown_ValueChanged(object sender, EventArgs e)
@@ -89,6 +106,7 @@ namespace Home_budget.Views
                 }
 
                 RefreshGrid();
+                RefreshExpenseSum();
             }
         }
 
@@ -111,6 +129,7 @@ namespace Home_budget.Views
                 _expenseService.Edit(editedExpense);
                 
                 RefreshGrid();
+                RefreshExpenseSum();
             }
         }
 
@@ -145,6 +164,7 @@ namespace Home_budget.Views
             _expenses.Remove(expense);
 
             RefreshGrid();
+            RefreshExpenseSum();
         }
 
         private void EditCategoriesButton_Click(object sender, EventArgs e)
@@ -164,6 +184,14 @@ namespace Home_budget.Views
             using (var monthlyBudgetsEditDialog = new MonthlyLimitsView())
             {
                 monthlyBudgetsEditDialog.ShowDialog();
+            }
+        }
+
+        private void ShowAnalysisButton_Click(object sender, EventArgs e)
+        {
+            using (var analysisView = new AnalysisView())
+            {
+                analysisView.ShowDialog();
             }
         }
     }
