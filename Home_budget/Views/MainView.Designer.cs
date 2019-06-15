@@ -29,10 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             this.expensesDataGridView = new System.Windows.Forms.DataGridView();
+            this.dateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CategoryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CategoryColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bsExpense = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.yearNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -42,22 +48,19 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.editCategoriesButton = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.CategoryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CategoryColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.showAnalysisButton = new System.Windows.Forms.Button();
             this.editMonthlyBudgetsButton = new System.Windows.Forms.Button();
-            this.dateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bsExpense = new System.Windows.Forms.BindingSource(this.components);
+            this.showAnalysisButton = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.expenseSumLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.expensesDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsExpense)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yearNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.monthNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bsExpense)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // expensesDataGridView
@@ -89,6 +92,61 @@
             this.expensesDataGridView.Size = new System.Drawing.Size(483, 325);
             this.expensesDataGridView.TabIndex = 2;
             this.expensesDataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.ExpensesDataGridView_CellPainting);
+            // 
+            // dateDataGridViewTextBoxColumn
+            // 
+            this.dateDataGridViewTextBoxColumn.DataPropertyName = "Date";
+            this.dateDataGridViewTextBoxColumn.FillWeight = 1F;
+            this.dateDataGridViewTextBoxColumn.HeaderText = "Data";
+            this.dateDataGridViewTextBoxColumn.MinimumWidth = 70;
+            this.dateDataGridViewTextBoxColumn.Name = "dateDataGridViewTextBoxColumn";
+            this.dateDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // CategoryName
+            // 
+            this.CategoryName.DataPropertyName = "CategoryName";
+            this.CategoryName.FillWeight = 50F;
+            this.CategoryName.HeaderText = "Kategoria";
+            this.CategoryName.MinimumWidth = 80;
+            this.CategoryName.Name = "CategoryName";
+            this.CategoryName.ReadOnly = true;
+            // 
+            // valueDataGridViewTextBoxColumn
+            // 
+            this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
+            dataGridViewCellStyle1.Format = "C2";
+            dataGridViewCellStyle1.NullValue = null;
+            this.valueDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.valueDataGridViewTextBoxColumn.FillWeight = 1F;
+            this.valueDataGridViewTextBoxColumn.HeaderText = "Wartość";
+            this.valueDataGridViewTextBoxColumn.MinimumWidth = 60;
+            this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
+            this.valueDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // descriptionDataGridViewTextBoxColumn
+            // 
+            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
+            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Opis";
+            this.descriptionDataGridViewTextBoxColumn.MinimumWidth = 80;
+            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // CategoryColor
+            // 
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Transparent;
+            this.CategoryColor.DefaultCellStyle = dataGridViewCellStyle2;
+            this.CategoryColor.FillWeight = 1F;
+            this.CategoryColor.HeaderText = "";
+            this.CategoryColor.MinimumWidth = 30;
+            this.CategoryColor.Name = "CategoryColor";
+            this.CategoryColor.ReadOnly = true;
+            this.CategoryColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // bsExpense
+            // 
+            this.bsExpense.DataSource = typeof(Models.Models.Expense);
             // 
             // label1
             // 
@@ -156,9 +214,9 @@
             // 
             // addExpenseButton
             // 
-            this.addExpenseButton.Location = new System.Drawing.Point(15, 53);
+            this.addExpenseButton.Location = new System.Drawing.Point(5, 19);
             this.addExpenseButton.Name = "addExpenseButton";
-            this.addExpenseButton.Size = new System.Drawing.Size(75, 23);
+            this.addExpenseButton.Size = new System.Drawing.Size(70, 23);
             this.addExpenseButton.TabIndex = 6;
             this.addExpenseButton.Text = "Dodaj";
             this.addExpenseButton.UseVisualStyleBackColor = true;
@@ -166,9 +224,9 @@
             // 
             // editButton
             // 
-            this.editButton.Location = new System.Drawing.Point(96, 53);
+            this.editButton.Location = new System.Drawing.Point(81, 19);
             this.editButton.Name = "editButton";
-            this.editButton.Size = new System.Drawing.Size(75, 23);
+            this.editButton.Size = new System.Drawing.Size(70, 23);
             this.editButton.TabIndex = 7;
             this.editButton.Text = "Edytuj";
             this.editButton.UseVisualStyleBackColor = true;
@@ -176,9 +234,9 @@
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(177, 53);
+            this.deleteButton.Location = new System.Drawing.Point(157, 19);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(63, 23);
+            this.deleteButton.Size = new System.Drawing.Size(70, 23);
             this.deleteButton.TabIndex = 8;
             this.deleteButton.Text = "Usuń";
             this.deleteButton.UseVisualStyleBackColor = true;
@@ -209,51 +267,18 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.expenseSumLabel);
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel2.Controls.Add(this.editMonthlyBudgetsButton);
             this.splitContainer1.Panel2.Controls.Add(this.showAnalysisButton);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.editCategoriesButton);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
-            this.splitContainer1.Panel2.Controls.Add(this.deleteButton);
             this.splitContainer1.Panel2.Controls.Add(this.yearNumericUpDown);
-            this.splitContainer1.Panel2.Controls.Add(this.editButton);
             this.splitContainer1.Panel2.Controls.Add(this.monthNumericUpDown);
-            this.splitContainer1.Panel2.Controls.Add(this.addExpenseButton);
             this.splitContainer1.Size = new System.Drawing.Size(740, 325);
             this.splitContainer1.SplitterDistance = 483;
             this.splitContainer1.TabIndex = 10;
-            // 
-            // CategoryName
-            // 
-            this.CategoryName.DataPropertyName = "CategoryName";
-            this.CategoryName.FillWeight = 50F;
-            this.CategoryName.HeaderText = "Kategoria";
-            this.CategoryName.MinimumWidth = 80;
-            this.CategoryName.Name = "CategoryName";
-            this.CategoryName.ReadOnly = true;
-            // 
-            // CategoryColor
-            // 
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Transparent;
-            this.CategoryColor.DefaultCellStyle = dataGridViewCellStyle2;
-            this.CategoryColor.FillWeight = 1F;
-            this.CategoryColor.HeaderText = "";
-            this.CategoryColor.MinimumWidth = 30;
-            this.CategoryColor.Name = "CategoryColor";
-            this.CategoryColor.ReadOnly = true;
-            this.CategoryColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // showAnalysisButton
-            // 
-            this.showAnalysisButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.showAnalysisButton.Location = new System.Drawing.Point(15, 111);
-            this.showAnalysisButton.Name = "showAnalysisButton";
-            this.showAnalysisButton.Size = new System.Drawing.Size(75, 23);
-            this.showAnalysisButton.TabIndex = 10;
-            this.showAnalysisButton.Text = "Analizy";
-            this.showAnalysisButton.UseVisualStyleBackColor = true;
             // 
             // editMonthlyBudgetsButton
             // 
@@ -266,38 +291,37 @@
             this.editMonthlyBudgetsButton.UseVisualStyleBackColor = true;
             this.editMonthlyBudgetsButton.Click += new System.EventHandler(this.EditMonthlyBudgetsButton_Click);
             // 
-            // dateDataGridViewTextBoxColumn
+            // showAnalysisButton
             // 
-            this.dateDataGridViewTextBoxColumn.DataPropertyName = "Date";
-            this.dateDataGridViewTextBoxColumn.FillWeight = 1F;
-            this.dateDataGridViewTextBoxColumn.HeaderText = "Data";
-            this.dateDataGridViewTextBoxColumn.MinimumWidth = 70;
-            this.dateDataGridViewTextBoxColumn.Name = "dateDataGridViewTextBoxColumn";
-            this.dateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.showAnalysisButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.showAnalysisButton.Location = new System.Drawing.Point(15, 146);
+            this.showAnalysisButton.Name = "showAnalysisButton";
+            this.showAnalysisButton.Size = new System.Drawing.Size(100, 23);
+            this.showAnalysisButton.TabIndex = 10;
+            this.showAnalysisButton.Text = "Analiza wydatków";
+            this.showAnalysisButton.UseVisualStyleBackColor = true;
+            this.showAnalysisButton.Click += new System.EventHandler(this.ShowAnalysisButton_Click);
             // 
-            // valueDataGridViewTextBoxColumn
+            // groupBox1
             // 
-            this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
-            dataGridViewCellStyle1.Format = "C2";
-            dataGridViewCellStyle1.NullValue = null;
-            this.valueDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
-            this.valueDataGridViewTextBoxColumn.FillWeight = 1F;
-            this.valueDataGridViewTextBoxColumn.HeaderText = "Wartość";
-            this.valueDataGridViewTextBoxColumn.MinimumWidth = 60;
-            this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
-            this.valueDataGridViewTextBoxColumn.ReadOnly = true;
+            this.groupBox1.Controls.Add(this.addExpenseButton);
+            this.groupBox1.Controls.Add(this.editButton);
+            this.groupBox1.Controls.Add(this.deleteButton);
+            this.groupBox1.Location = new System.Drawing.Point(10, 75);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(232, 48);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Wydatki";
             // 
-            // descriptionDataGridViewTextBoxColumn
+            // expenseSumLabel
             // 
-            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Opis";
-            this.descriptionDataGridViewTextBoxColumn.MinimumWidth = 80;
-            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
-            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // bsExpense
-            // 
-            this.bsExpense.DataSource = typeof(Models.Models.Expense);
+            this.expenseSumLabel.AutoSize = true;
+            this.expenseSumLabel.Location = new System.Drawing.Point(15, 48);
+            this.expenseSumLabel.Name = "expenseSumLabel";
+            this.expenseSumLabel.Size = new System.Drawing.Size(28, 13);
+            this.expenseSumLabel.TabIndex = 13;
+            this.expenseSumLabel.Text = "Limit";
             // 
             // MainView
             // 
@@ -311,6 +335,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Budżet domowy";
             ((System.ComponentModel.ISupportInitialize)(this.expensesDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsExpense)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.yearNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.monthNumericUpDown)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -318,7 +343,7 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.bsExpense)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -342,5 +367,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn CategoryColor;
         private System.Windows.Forms.Button showAnalysisButton;
         private System.Windows.Forms.Button editMonthlyBudgetsButton;
+        private System.Windows.Forms.Label expenseSumLabel;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

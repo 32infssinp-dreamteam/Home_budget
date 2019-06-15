@@ -11,7 +11,7 @@ namespace Repository.Services
         public MonthlyBudget Get(int year, int month)
         {
             var monthlyBudget = _monthlyBudgetRepository.Get(year, month);
-            monthlyBudget.MarkOld();
+            monthlyBudget?.MarkOld();
 
             return monthlyBudget;
         }

@@ -45,6 +45,7 @@
     <Compile Include="BusinessServices\CategoryBusinessService.cs" />
     <Compile Include="BusinessServices\ExpenseBusinessService.cs" />
     <Compile Include="BusinessServices\MonthlyBudgetsBusinessService.cs" />
+    <Compile Include="BusinessServices\SummaryBusinessService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
