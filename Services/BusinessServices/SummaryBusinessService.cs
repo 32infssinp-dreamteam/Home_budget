@@ -23,5 +23,23 @@ namespace Services.BusinessServices
 
             return summaryData;
         }
+
+        public List<SummaryData> GroupDataByDay(List<Expense> expenses)
+        {
+            var summaryData = expenses
+                .GroupBy(expense => expense.Date)
+                .Select(gr => new SummaryData
+                {
+                    Date = gr.Key,
+                    CategoryId = gr.First().CategoryId,
+                    CategoryName = gr.First().CategoryName,
+                    CategoryColor = gr.First().CategoryColor,
+                    DateStr = gr.First().Date.ToShortDateString(),
+                    Value = gr.Sum(g => g.Value)
+                })
+                .ToList();
+
+            return summaryData;
+        }
     }
 }
